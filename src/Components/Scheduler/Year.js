@@ -4,6 +4,9 @@ import Month from './Month'
 import Snackbar from '@material-ui/core/Snackbar'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
+import Arrow from '@material-ui/icons/ArrowRightAlt'
+import Check from '@material-ui/icons/Done'
+import Clear from '@material-ui/icons/Clear'
 import './Calendar.css'
 
 export default class Year extends Component {  
@@ -35,9 +38,7 @@ export default class Year extends Component {
     }
     
     selectEndingDay = (day) => {
-        console.log(moment(day)._d.toDateString() <= moment(this.state.startingDay)._d.toDateString())
-        console.log(moment(day)._d.toDateString(), '<=', moment(this.state.startingDay)._d.toDateString())
-        if (moment(day)._d.toDateString() < moment(this.state.startingDay)._d.toDateString()) {
+        if (moment(day).format('x') <= moment(this.state.startingDay).format('x')) {
             this.handleClick()
         } else if (day < this.state.endingDay) {
             let unstyleArr = this.state.betweenDays.filter(date => date > day)
@@ -73,6 +74,21 @@ export default class Year extends Component {
         })
         date = this.state.startingDay
     }
+
+    clearDates = () => {
+        document.getElementById(this.state.startingDay.startOf('day')._d).className = 'day'
+        if (this.state.endingDay !== '') {
+            document.getElementById(this.state.endingDay.startOf('day')._d).className = 'day'
+            this.state.betweenDays.map(day => {
+                document.getElementById(day.startOf('day')._d).className = 'day'
+            }) 
+        }
+        this.setState({
+            startingDay: '',
+            endingDay: '',
+            betweenDays: []
+        })
+    }
     
     render() {
         let months = Array.apply(null, { length: 6 }).map(Number.call, Number).map((month, i) => {
@@ -90,8 +106,9 @@ export default class Year extends Component {
     return (
         <div className = 'scheduler'>
             {months}
+
             <Snackbar
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 open={this.state.open}
                 autoHideDuration={6000}
                 onClose={this.handleClose}
@@ -110,6 +127,54 @@ export default class Year extends Component {
                     </IconButton>,
                 ]}
             />
+            
+            {(this.state.startingDay !== '') ?
+                <div className="tripDetails">
+                    <IconButton
+                        onClick={this.clearDates}
+                    >
+                        <Clear
+                            style={{
+                                color: '#fff',
+                                height: '30px',
+                                width: '30px'
+                            }}
+                        />
+                    </IconButton>
+
+                    <div className="datesDisplay">
+                        {this.state.startingDay.format('MM/DD/YYYY')}
+                        <Arrow
+                            style={{
+                                padding: '0px 5px'
+                            }}
+                        />
+                        {(this.state.endingDay !== '') ?
+                            this.state.endingDay.format('MM/DD/YYYY')
+                            :
+                            null
+                    }
+                    </div>
+
+                    {(this.state.endingDay !== '') ?
+                        <IconButton
+                            onClick={this.clearDates}
+                        >
+                            <Check
+                                style={{
+                                    color: '#fff',
+                                    height: '30px',
+                                    width: '30px'
+                                }}
+                            />
+                        </IconButton>
+                        :
+                        null}
+    
+                </div>
+                :
+                null
+            }
         </div>
     )
   }
