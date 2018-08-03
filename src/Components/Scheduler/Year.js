@@ -7,6 +7,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import Arrow from '@material-ui/icons/ArrowRightAlt'
 import Check from '@material-ui/icons/Done'
 import Clear from '@material-ui/icons/Clear'
+import Visit from './../Visit/Visit'
 import './Calendar.css'
 
 export default class Year extends Component {  
@@ -18,7 +19,8 @@ export default class Year extends Component {
             startingDay: '',
             endingDay: '',
             betweenDays: [],
-            open: false
+            open: false,
+            visit: false
         }
     }
 
@@ -87,6 +89,12 @@ export default class Year extends Component {
             startingDay: '',
             endingDay: '',
             betweenDays: []
+        })
+    }
+
+    openVisit = () => {
+        this.setState({
+            visit: true
         })
     }
     
@@ -158,7 +166,7 @@ export default class Year extends Component {
 
                     {(this.state.endingDay !== '') ?
                         <IconButton
-                            onClick={this.clearDates}
+                            onClick={this.openVisit}
                         >
                             <Check
                                 style={{
@@ -175,6 +183,7 @@ export default class Year extends Component {
                 :
                 null
             }
+            {(this.state.visit) ? <Visit/> : null}
         </div>
     )
   }
