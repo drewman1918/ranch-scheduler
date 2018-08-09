@@ -4,6 +4,8 @@ module.exports = function addAuthEndpointsTo(app) {
     app.get('/auth/test', test);
 
     app.post('/auth/create', createUser)
+
+    app.post('/auth/login', login)
 }
 
 function test(req, res){
@@ -22,4 +24,28 @@ function createUser(req, res) {
                 }).catch(e => res.status(500).send(e))
         })
     })
+}
+
+function login(req, res) {
+    let { email, spassword } = req.body;
+    req.db.read_password([email])
+        .then(([{password, id}]) => {
+            bcrypt.compare(spassword, password, (err, result) => {
+                if (err) {
+                    res.status(500).send(err)
+                }
+                else if (result) {
+                    req.db.read_user([id]).then(user => {
+                        req.session.user = user[0]
+                        res.sendStatus(200)
+                    }).catch(err => {
+                        res.status(500).send(err)
+                    })
+                } else {
+                    res.sendStatus(500)
+                }
+            })
+        }).catch((err) => {
+            res.status(500).send(err)    
+        })
 }

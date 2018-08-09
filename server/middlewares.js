@@ -19,4 +19,14 @@ exports.default = function addMiddlewaresTo(app) {
         resave: false,
         saveUninitialized: false
     }));
+
+    //DESERIALIZE
+    app.use((req, res, next) => {
+        if (req.session.user) {
+            req.user = req.session.user
+            next()
+        } else {
+            next();
+        }
+    })
 }

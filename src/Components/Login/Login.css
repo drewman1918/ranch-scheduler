@@ -1,0 +1,49 @@
+.login{
+    background-color: #e5e5e5;
+    background-image: url('./blueLake.JPG');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.loginBox{
+    -webkit-box-shadow: 0px 5px 5px 3px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 5px 5px 3px rgba(0,0,0,0.3);
+    box-shadow: 0px 5px 5px 3px rgba(0,0,0,0.3);
+    width: 100%;
+}
+
+.loginHeader{
+    background: #26547C;
+    color: #fff;
+    font-family: 'Signika', sans-serif;
+    font-size: 30px;
+    padding: 20px 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginContent{
+    background: rgba(265, 265, 265, 0.8);
+    padding: 0px 20px;
+}
+
+.loginButton{
+    background: #F5D547;
+    color: #26547C;
+    font-family: 'Signika', sans-serif;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 20px 0px;
+    width: 100%;
+    border: 0;
+}
+
